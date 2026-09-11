@@ -1,6 +1,6 @@
 import argparse
 
-def creat_arg_parser() -> argparse.Namespace:
+def create_arg_parser() -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="task-cli", description="Task Tracker CLI")
     sub_parsers = parser.add_subparsers(dest="command", help="Available commands")
 
