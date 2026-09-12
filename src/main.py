@@ -1,4 +1,6 @@
 from src.cli import create_arg_parser
+from src.task_functions import CommandPayload, execute_command
+
 
 def main():
     args = create_arg_parser()
@@ -6,7 +8,14 @@ def main():
 
     match command:
         case "add":
-            print(f"[{args.description}] will be added to tasks")
+            execute_command({
+                "command": command,
+                "description": args.description
+            })
+        case "list":
+            execute_command({
+                "command": command
+            })
 
 if __name__ == "__main__":
     main()
