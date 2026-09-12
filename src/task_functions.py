@@ -28,7 +28,8 @@ class JsonFileData(TypedDict):
     tasks: list[NewTask|UpdatedTask]
 
 
-FILE_PATH = Path("data/tasks.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+FILE_PATH = PROJECT_ROOT / "data" / "tasks.json"
 FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 def execute_command(command: CommandPayload):
