@@ -74,6 +74,11 @@ def list_tasks() -> None:
 
      if not tasks:
          print("No tasks added yet")
+         return
+
+     print("Tasks: ")
+     for index, task in enumerate(tasks):
+         print(f"{index+1}. {task['description']}  status: {task['status']}")
 
 
 def load_tasks(path: Path) -> list[NewTask | UpdatedTask]:
