@@ -32,16 +32,16 @@ def execute_command(command: CommandPayload):
         if "description" not in command:
             print("Provide a description")
             return
+        try:
+            saved_tasks = load_tasks(FILE_PATH)
+            new_task = build_new_task(command["description"], saved_tasks, datetime.now().isoformat())
+            updated_tasks = add_task(new_task, saved_tasks)
 
-        task: NewTask = {
-            "id": 1,
-            "description": command["description"],
-            "status": "todo",
-            "created_at": datetime.now().isoformat()
-        }
-
-        add_task(task)
-        return
+            save_tasks(updated_tasks, FILE_PATH)
+            print(f"[{new_task['description']}] added to tasks")
+            return
+        except ValueError as err:
+            print(f"Error: {err}")
     if command['command'] == "delete":
         return
     if command['command'] == "update":
