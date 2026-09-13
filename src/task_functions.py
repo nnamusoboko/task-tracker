@@ -12,20 +12,15 @@ class CommandPayload(TypedDict):
     id: NotRequired[int]
     status: NotRequired[str]
 
-class BaseTask(TypedDict):
+class Task(TypedDict):
     id: int
     description: str
     status: TaskStatus
-    created_at: str
-
-class NewTask(BaseTask):
-    pass
-
-class UpdatedTask(BaseTask):
-    update_at: str
+    createdAt: str
+    updatedAt: str
 
 class JsonFileData(TypedDict):
-    tasks: list[NewTask|UpdatedTask]
+    tasks: list[Task]
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
