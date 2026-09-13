@@ -70,8 +70,8 @@ def list_tasks() -> None:
          print(f"{index+1}. {task['description']}  status: {task['status']}")
 
 
-def load_tasks(path: Path) -> list[NewTask | UpdatedTask]:
-    tasks: list[NewTask|UpdatedTask] = []
+def load_tasks(path: Path) -> list[Task]:
+    tasks: list[Task] = []
     if path.exists():
         with open(path, "r") as f:
             try:
