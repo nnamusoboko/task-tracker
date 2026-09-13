@@ -52,9 +52,8 @@ def execute_command(command: CommandPayload):
 
 
 def add_task(task: Task, tasks: list[Task]) -> list[Task]:
-    for stored_task in tasks:
-       if task["id"] == stored_task["id"]:
-           raise ValueError(f"Task with ID {task['id']} already exists.")
+    if any(stored_task["id"] == task["id"] for stored_task in tasks):
+        raise ValueError(f"Task with ID {task['id']} already exists.")
     return [*tasks, task]
 
 
