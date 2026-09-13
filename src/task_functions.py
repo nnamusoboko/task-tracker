@@ -51,18 +51,12 @@ def execute_command(command: CommandPayload):
         return
 
 
-def add_task(task: NewTask) -> None:
-    tasks = load_tasks(FILE_PATH)
-
+def add_task(task: Task, tasks: list[Task]) -> list[Task]:
     for stored_task in tasks:
        if task["id"] == stored_task["id"]:
-           print(f"[{task['description']}] already exists")
-           return
-    tasks.append(task)
+           raise ValueError(f"Task with ID {task['id']} already exists.")
+    return [*tasks, task]
 
-    with open(FILE_PATH, "w") as f:
-        json.dump(tasks, f, indent=4)
-    print(f"[{task['description']}] added to tasks")
 
 def list_tasks() -> None:
      tasks = load_tasks(FILE_PATH)
