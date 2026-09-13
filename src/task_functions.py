@@ -79,3 +79,18 @@ def load_tasks(path: Path) -> list[Task]:
             except JSONDecodeError:
                 tasks = []
     return tasks
+
+def build_new_task(description: str, tasks: list[Task], current_date_string: str) -> Task:
+    task_id = max((task["id"] for task in tasks), default=0) + 1
+    return {
+        "id": task_id,
+        "description": description,
+        "status": "todo",
+        "createdAt": current_date_string,
+        "updatedAt": current_date_string
+    }
+
+def save_tasks(tasks: list[Task], file_path: Path) -> None:
+    if file_path.exists():
+        with open(file_path, "w") as file:
+            json.dump(tasks, file, indent=4)
