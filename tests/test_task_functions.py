@@ -14,6 +14,13 @@ def make_task(task_id: int, description: str, status: TaskStatus) -> Task:
         "updatedAt": now
     }
 
+def test_build_new_task_assigns_unique_ids():
+    task1 = build_new_task("go to hackathon", [], datetime.now().isoformat())
+    task2 = build_new_task("come back from hackathon", [task1], datetime.now().isoformat())
+
+    assert task1["id"] == 1
+    assert task2["id"] == 2
+
 def test_add_task_to_empty_list():
     now = datetime.now().isoformat()
     task: Task = build_new_task("code tonight", [], now)
