@@ -8,7 +8,7 @@ def create_arg_parser() -> argparse.Namespace:
     add_parser.add_argument("description", type=str, help="description of the task")
 
     update_parser = sub_parsers.add_parser("update", help="update a task")
-    update_parser.add_argument("task_id", help="id of the task to update")
+    update_parser.add_argument("task_id", type=int,  help="id of the task to update")
     update_parser.add_argument("description", type=str, help="data to update with")
 
     delete_parser = sub_parsers.add_parser("delete", help="delete a task")
