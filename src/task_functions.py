@@ -41,10 +41,31 @@ def execute_command(command: CommandPayload):
             return
         except ValueError as err:
             print(f"Error: {err}")
+            return
     if command['command'] == "delete":
         return
     if command['command'] == "update":
-        return
+        if "description" not in command:
+            print("Provide a task description")
+            return
+        if "id" not in command:
+            print("Please provide the task id whose description is to be updated")
+            return
+
+        try:
+            saved_tasks = load_tasks(FILE_PATH)
+            updated_tasks = update_task(
+                command["id"],
+                command["description"],
+                saved_tasks,
+                datetime.now().isoformat()
+            )
+            save_tasks(updated_tasks, FILE_PATH)
+            print(f"Task updated successfully (ID: {command['id']})")
+            return
+        except ValueError as err:
+            print(f"Error: {err}")
+            return
     if command['command'] == "list":
         tasks = load_tasks(FILE_PATH)
         print(format_task_list(tasks))
@@ -90,3 +111,22 @@ def save_tasks(tasks: list[Task], file_path: Path) -> None:
     file_path.parent.mkdir(parents=True, exist_ok=True)
     with open(file_path, "w") as file:
         json.dump(tasks, file, indent=4)
+
+def update_task(task_id: int, description: str, tasks: list[Task], current_date_str: str) -> list[Task]:
+    updated_tasks: list[Task] = []
+    found = False
+    for task in tasks:
+        if task["id"] == task_id:
+            updated_task: Task = {
+                **task,
+                "description": description,
+                "updatedAt": current_date_str
+            }
+            updated_tasks.append(updated_task)
+            found = True
+        else:
+            updated_tasks.append(task)
+
+    if not found:
+        raise ValueError(f"Task with ID: {task_id} not found")
+    return updated_tasks

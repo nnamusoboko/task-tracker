@@ -16,6 +16,14 @@ def main():
             execute_command({
                 "command": command
             })
+        case "update":
+            execute_command({
+                "command": command,
+                "description": args.description,
+                "id": args.task_id
+            })
+
+
 
 if __name__ == "__main__":
     main()
