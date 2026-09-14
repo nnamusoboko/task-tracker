@@ -2,8 +2,17 @@ from datetime import datetime
 
 import pytest
 
-from src.task_functions import Task, add_task, build_new_task, format_task_list
+from src.task_functions import Task, add_task, build_new_task, format_task_list, TaskStatus
 
+def make_task(task_id: int, description: str, status: TaskStatus) -> Task:
+    now = datetime.now().isoformat()
+    return {
+        "id": task_id,
+        "description":description,
+        "status": status,
+        "createdAt": now,
+        "updatedAt": now
+    }
 
 def test_add_task_to_empty_list():
     now = datetime.now().isoformat()
