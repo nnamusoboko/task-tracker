@@ -47,7 +47,8 @@ def execute_command(command: CommandPayload):
     if command['command'] == "update":
         return
     if command['command'] == "list":
-        list_tasks()
+        tasks = load_tasks(FILE_PATH)
+        print(format_task_list(tasks))
         return
 
 
@@ -57,17 +58,14 @@ def add_task(task: Task, tasks: list[Task]) -> list[Task]:
     return [*tasks, task]
 
 
-def list_tasks() -> None:
-     tasks = load_tasks(FILE_PATH)
-
+def format_task_list(tasks: list[Task]) -> str:
      if not tasks:
-         print("No tasks added yet")
-         return
+         return "No tasks added yet"
 
-     print("Tasks: ")
-     for index, task in enumerate(tasks):
-         print(f"{index+1}. {task['description']}  status: {task['status']}")
-
+     lines = ["Tasks: "]
+     for task in tasks:
+         lines.append("{task['id']}. {task['description']}  status: {task['status']}")
+     return "\n".join(lines)
 
 def load_tasks(path: Path) -> list[Task]:
     tasks: list[Task] = []
