@@ -22,16 +22,14 @@ def test_build_new_task_assigns_unique_ids():
     assert task2["id"] == 2
 
 def test_add_task_to_empty_list():
-    now = datetime.now().isoformat()
-    task: Task = build_new_task("code tonight", [], now)
+    task: Task = make_task(1, "code tonight", "todo")
 
     tasks = add_task(task, [])
     assert len(tasks) == 1
     assert tasks[0]["description"] == "code tonight"
 
 def test_add_task_rejects_duplicate_id():
-    now  = datetime.now().isoformat()
-    existing = build_new_task("snipe tokens", [], now)
+    existing = make_task(4, "snipe tokens", "done")
     duplicate_task: Task = {**existing, "description": "go to gym"} # type: ignore[typeddict-item]
 
     with pytest.raises(ValueError):
@@ -47,12 +45,6 @@ def test_add_task_accepts_duplicate_task_descriptions():
     assert len(tasks) == 2
     assert tasks[0]["description"] == tasks[1]["description"]
 
-def test_build_new_task_assigns_unique_ids():
-    task1 = build_new_task("go to hackathon", [], datetime.now().isoformat())
-    task2 = build_new_task("come back from hackathon", [task1], datetime.now().isoformat())
-
-    assert task1["id"] == 1
-    assert task2["id"] == 2
 
 def test_format_task_list():
     empty_list_default_str = format_task_list([])
