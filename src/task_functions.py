@@ -64,7 +64,7 @@ def format_task_list(tasks: list[Task]) -> str:
 
      lines = ["Tasks: "]
      for task in tasks:
-         lines.append("{task['id']}. {task['description']}  status: {task['status']}")
+         lines.append(f"{task['id']}. {task['description']}  status: {task['status']}")
      return "\n".join(lines)
 
 def load_tasks(path: Path) -> list[Task]:
