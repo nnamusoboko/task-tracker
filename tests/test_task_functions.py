@@ -10,6 +10,7 @@ from src.task_functions import (
     add_task,
     build_new_task,
     format_task_list,
+    load_tasks,
     save_tasks
 )
 
@@ -68,10 +69,18 @@ def test_save_tasks(tmp_path: Path):
     file_path = tmp_path / "tasks.json"
 
     task1 = make_task(2, "go to hackathon", "in-progress")
-
     save_tasks([task1], file_path)
 
     assert file_path.exists()
 
     written_data = json.loads(file_path.read_text())
     assert written_data == [task1]
+
+def test_load_tasks(tmp_path: Path):
+    file_path  = tmp_path / "tasks.json"
+    task1 = make_task(2, "go to hackathon", "in-progress")
+
+    file_path.write_text(json.dumps([task1]))
+    loaded_tasks = load_tasks(file_path)
+
+    assert loaded_tasks == [task1]
