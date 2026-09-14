@@ -49,15 +49,8 @@ def test_build_new_task_assigns_unique_ids():
 
 def test_format_task_list():
     empty_list_default_str = format_task_list([])
-    now =  datetime.now().isoformat()
-    task: Task = {
-        "id":1, "description":
-        "Code tonight",
-        "status": "todo",
-        "createdAt": now,
-        "updatedAt": now
-    }
-    tasks_str = format_task_list([task])
+    task: Task = make_task(1, "code tonight", "todo")
+    formatted_tasks_str = format_task_list([task])
 
     assert empty_list_default_str == "No tasks added yet"
-    assert tasks_str == f"Tasks: \n{task['id']}. {task['description']}  status: {task['status']}"
+    assert formatted_tasks_str == f"Tasks: \n{task['id']}. {task['description']}  status: {task['status']}"
