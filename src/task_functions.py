@@ -25,7 +25,6 @@ class JsonFileData(TypedDict):
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 FILE_PATH = PROJECT_ROOT / "data" / "tasks.json"
-FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 def execute_command(command: CommandPayload):
     if command['command'] == "add":
@@ -88,6 +87,6 @@ def build_new_task(description: str, tasks: list[Task], current_date_string: str
     }
 
 def save_tasks(tasks: list[Task], file_path: Path) -> None:
-    if file_path.exists():
-        with open(file_path, "w") as file:
-            json.dump(tasks, file, indent=4)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(file_path, "w") as file:
+        json.dump(tasks, file, indent=4)
