@@ -31,8 +31,8 @@ def test_add_task_rejects_duplicate_id():
         add_task(duplicate_task, [existing])
 
 def test_add_task_accepts_duplicate_task_descriptions():
-    task1 = build_new_task("go to hackathon", [], datetime.now().isoformat())
-    task2 = build_new_task("go to hackathon", [task1], datetime.now().isoformat())
+    task1 = make_task(1, "go to hackathon", "todo")
+    task2 = make_task(2, "go to hackathon", "in-progress")
 
     tasks = add_task(task1, [])
     tasks = add_task(task2, tasks)
