@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from src.task_functions import Task, add_task, build_new_task
+from src.task_functions import Task, add_task, build_new_task, format_task_list
 
 
 def test_add_task_to_empty_list():
@@ -37,3 +37,18 @@ def test_build_new_task_assigns_unique_ids():
 
     assert task1["id"] == 1
     assert task2["id"] == 2
+
+def test_format_task_list():
+    empty_list_default_str = format_task_list([])
+    now =  datetime.now().isoformat()
+    task: Task = {
+        "id":1, "description":
+        "Code tonight",
+        "status": "todo",
+        "createdAt": now,
+        "updatedAt": now
+    }
+    tasks_str = format_task_list([task])
+
+    assert empty_list_default_str == "No tasks added yet"
+    assert tasks_str == f"Tasks: \n{task['id']}. {task['description']}  status: {task['status']}"
