@@ -37,7 +37,7 @@ def execute_command(command: CommandPayload):
             updated_tasks = add_task(new_task, saved_tasks)
 
             save_tasks(updated_tasks, FILE_PATH)
-            print(f"[{new_task['description']}] added to tasks")
+            print(f"Task added successfully (ID: {new_task['id']})")
             return
         except ValueError as err:
             print(f"Error: {err}")
