@@ -1,8 +1,18 @@
 from datetime import datetime
+import json
+from pathlib import Path
 
 import pytest
 
-from src.task_functions import Task, add_task, build_new_task, format_task_list, TaskStatus
+from src.task_functions import (
+    Task,
+    TaskStatus,
+    add_task,
+    build_new_task,
+    format_task_list,
+    save_tasks
+)
+
 
 def make_task(task_id: int, description: str, status: TaskStatus) -> Task:
     now = datetime.now().isoformat()
@@ -53,3 +63,15 @@ def test_format_task_list():
 
     assert empty_list_default_str == "No tasks added yet"
     assert formatted_tasks_str == f"Tasks: \n{task['id']}. {task['description']}  status: {task['status']}"
+
+def test_save_tasks(tmp_path: Path):
+    file_path = tmp_path / "tasks.json"
+
+    task1 = make_task(2, "go to hackathon", "in-progress")
+
+    save_tasks([task1], file_path)
+
+    assert file_path.exists()
+
+    written_data = json.loads(file_path.read_text())
+    assert written_data == [task1]
