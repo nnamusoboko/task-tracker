@@ -9,9 +9,10 @@ from src.task_functions import (
     TaskStatus,
     add_task,
     build_new_task,
+    delete_task,
     format_task_list,
     load_tasks,
-    save_tasks
+    save_tasks,
 )
 
 
@@ -84,3 +85,19 @@ def test_load_tasks(tmp_path: Path):
     loaded_tasks = load_tasks(file_path)
 
     assert loaded_tasks == [task1]
+
+def test_delete_task_works_correctly_on_right_input():
+    new_task = make_task(30, "code tomorrow", "todo")
+    original_tasks = [new_task]
+
+    updated_tasks = delete_task(30, original_tasks)
+
+    assert len(original_tasks) == 1
+    assert len(updated_tasks) == 0
+
+
+def test_delete_task_on_non_existent_task_id_raises_an_error():
+    new_task = make_task(30, "code tomorrow", "todo")
+
+    with pytest.raises(ValueError):
+        delete_task(30, [new_task])
