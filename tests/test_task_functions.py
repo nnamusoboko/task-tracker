@@ -100,4 +100,4 @@ def test_delete_task_on_non_existent_task_id_raises_an_error():
     new_task = make_task(30, "code tomorrow", "todo")
 
     with pytest.raises(ValueError):
-        delete_task(30, [new_task])
+        delete_task(700, [new_task])
