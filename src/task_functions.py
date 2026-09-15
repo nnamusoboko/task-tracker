@@ -43,7 +43,18 @@ def execute_command(command: CommandPayload):
             print(f"Error: {err}")
             return
     if command['command'] == "delete":
-        return
+        if "id" not in command:
+            print("please provide a task id")
+            return
+        try:
+            stored_tasks = load_tasks(FILE_PATH)
+            new_updated_tasks = delete_task(command["id"], stored_tasks)
+            save_tasks(new_updated_tasks, FILE_PATH)
+            print(f"Task with ID: {command['id']} deleted successfully")
+            return
+        except ValueError as err:
+            print(f"Error: {err}")
+            return
     if command['command'] == "update":
         if "description" not in command:
             print("Provide a task description")
@@ -129,4 +140,18 @@ def update_task(task_id: int, description: str, tasks: list[Task], current_date_
 
     if not found:
         raise ValueError(f"Task with ID: {task_id} not found")
+    return updated_tasks
+
+def delete_task(task_id: int, stored_tasks: list[Task]) -> list[Task]:
+    updated_tasks: list[Task] = []
+    found = False
+    for task in stored_tasks:
+        if task["id"] == task_id:
+            found = True
+            continue
+        updated_tasks.append(task)
+
+    if not found:
+        raise ValueError(f"Task with ID: {task_id} not found")
+
     return updated_tasks

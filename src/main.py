@@ -22,6 +22,11 @@ def main():
                 "description": args.description,
                 "id": args.task_id
             })
+        case "delete":
+            execute_command({
+                "command": command,
+                "id": args.task_id
+            })
 
 
 
