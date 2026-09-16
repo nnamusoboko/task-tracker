@@ -110,7 +110,7 @@ def format_task_list(tasks: list[Task], status: str | None = None) -> str:
          lines.append(f"{task['id']}. {task['description']}  status: {task['status']}")
 
      if len(lines) == 1:
-        return f"No tasks found with status: {status}" if status else "No tasks added yet"
+        return f"No tasks found with status: {status}"
 
      return "\n".join(lines)
 
