@@ -108,12 +108,12 @@ def load_tasks(path: Path) -> list[Task]:
                 tasks = []
     return tasks
 
-def build_new_task(description: str, tasks: list[Task], current_date_string: str) -> Task:
+def build_new_task(description: str, tasks: list[Task], current_date_string: str, status: TaskStatus = "todo") -> Task:
     task_id = max((task["id"] for task in tasks), default=0) + 1
     return {
         "id": task_id,
         "description": description,
-        "status": "todo",
+        "status": status,
         "createdAt": current_date_string,
         "updatedAt": current_date_string
     }
