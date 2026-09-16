@@ -66,6 +66,15 @@ def test_format_task_list():
     assert empty_list_default_str == "No tasks added yet"
     assert formatted_tasks_str == f"Tasks: \n{task['id']}. {task['description']}  status: {task['status']}"
 
+def test_format_task_list_with_status():
+    task1 = make_task(4, "eat food", "done")
+    task2 = make_task(3, "watch football", "in-progress")
+
+    formatted_tasks_str = format_task_list([task1, task2], "done")
+
+    expected_output = "Tasks: \n4. eat food  status: done"
+    assert formatted_tasks_str == expected_output
+
 def test_save_tasks(tmp_path: Path):
     file_path = tmp_path / "tasks.json"
 
