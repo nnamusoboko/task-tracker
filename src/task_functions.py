@@ -89,6 +89,18 @@ def execute_command(command: CommandPayload):
 
         print(format_task_list(tasks))
         return
+    if command["command"] == "mark_in_progress":
+        if "id" not in command:
+            print("Task id not provided")
+            return
+        try:
+            tasks_stored = load_tasks(FILE_PATH)
+            updated_tasks_ = update_task_status(command["id"], tasks_stored, "in-progress", datetime.now().isoformat())
+            save_tasks(updated_tasks_, FILE_PATH)
+            print(f"Task status updated successfully (ID: {command['id']})")
+        except ValueError as err:
+            print(f"Error: {err}")
+            return
 
 
 def add_task(task: Task, tasks: list[Task]) -> list[Task]:
@@ -157,6 +169,26 @@ def update_task(task_id: int, description: str, tasks: list[Task], current_date_
     if not found:
         raise ValueError(f"Task with ID: {task_id} not found")
     return updated_tasks
+
+def update_task_status(task_id: int, stored_tasks: list[Task], new_task_status: TaskStatus, current_date: str) -> list[Task]:
+    updated_tasks: list[Task] = []
+    found = False
+    for task in stored_tasks:
+        if task["id"] == task_id:
+            updated_task: Task = {
+                **task,
+                "status": new_task_status,
+                "updatedAt": current_date
+            }
+            updated_tasks.append(updated_task)
+            found = True
+        else:
+            updated_tasks.append(task)
+
+    if not found:
+        raise ValueError(f"Task with ID: {task_id} not found")
+    return updated_tasks
+
 
 def delete_task(task_id: int, stored_tasks: list[Task]) -> list[Task]:
     updated_tasks: list[Task] = []

@@ -28,6 +28,11 @@ def main():
                 "command": command,
                 "id": args.task_id
             })
+        case "mark_in_progress":
+            execute_command({
+                "command": command,
+                "id": args.task_id
+            })
 
 
 
