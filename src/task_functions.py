@@ -79,6 +79,14 @@ def execute_command(command: CommandPayload):
             return
     if command['command'] == "list":
         tasks = load_tasks(FILE_PATH)
+        if "status" in command:
+            if command["status"].strip() == "":
+                print("Invalid task status provided")
+                return
+
+            print(format_task_list(tasks, command["status"]))
+            return
+
         print(format_task_list(tasks))
         return
 
@@ -89,12 +97,16 @@ def add_task(task: Task, tasks: list[Task]) -> list[Task]:
     return [*tasks, task]
 
 
-def format_task_list(tasks: list[Task]) -> str:
+def format_task_list(tasks: list[Task], status: str | None = None) -> str:
      if not tasks:
          return "No tasks added yet"
 
      lines = ["Tasks: "]
      for task in tasks:
+         if status:
+             if task["status"] == status:
+                 lines.append(f"{task['id']}. {task['description']}  status: {task['status']}")
+             continue
          lines.append(f"{task['id']}. {task['description']}  status: {task['status']}")
      return "\n".join(lines)
 

@@ -14,7 +14,8 @@ def main():
             })
         case "list":
             execute_command({
-                "command": command
+                "command": command,
+                "status": args.status
             })
         case "update":
             execute_command({
