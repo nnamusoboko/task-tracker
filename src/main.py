@@ -33,6 +33,11 @@ def main():
                 "command": command,
                 "id": args.task_id
             })
+        case "mark_done":
+            execute_command({
+                "command": command,
+                "id": args.task_id
+            })
 
 
 

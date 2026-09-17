@@ -101,6 +101,18 @@ def execute_command(command: CommandPayload):
         except ValueError as err:
             print(f"Error: {err}")
             return
+    if command["command"] == "mark_done":
+        if "id" not in command:
+            print("Task id not provided")
+            return
+        try:
+            tasks_stored_ = load_tasks(FILE_PATH)
+            updated_tasks__ = update_task_status(command["id"], tasks_stored_, "done", datetime.now().isoformat())
+            save_tasks(updated_tasks__, FILE_PATH)
+            print(f"Task status updated successfully (ID: {command['id']})")
+        except ValueError as err:
+            print(f"Error: {err}")
+            return
 
 
 def add_task(task: Task, tasks: list[Task]) -> list[Task]:
