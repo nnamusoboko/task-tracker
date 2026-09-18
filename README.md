@@ -41,12 +41,18 @@ task-cli list in-progress
 ## Get started
 
 1. **clone repo**
+
 ```bash
 git clone https://github.com/nnamusoboko/task-tracker
 cd task-tracker
 ```
 
 2. **set up environment**
+
 ```bash
 uv sync
 ```
+
+## Acknowledgements
+
+Inspired by the [Task Tracker](https://roadmap.sh/projects/task-tracker) project on [roadmap.sh](https://roadmap.sh/backend/projects)
