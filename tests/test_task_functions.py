@@ -1,5 +1,5 @@
-from datetime import datetime
 import json
+from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -13,6 +13,7 @@ from src.task_functions import (
     format_task_list,
     load_tasks,
     save_tasks,
+    update_task_status,
 )
 
 
@@ -110,3 +111,37 @@ def test_delete_task_on_non_existent_task_id_raises_an_error():
 
     with pytest.raises(ValueError):
         delete_task(700, [new_task])
+
+def test_update_task_progress():
+    task = make_task(1, "cook code", "todo")
+    now = datetime(2026, 9, 18, 12, 0, 0).isoformat()
+
+    updated_tasks  = update_task_status(
+        1,
+        [task],
+        "in-progress",
+        now
+    )
+
+    assert updated_tasks[0]["status"] == "in-progress"
+    assert updated_tasks[0]["updatedAt"] == now
+
+def test_update_task_progress_with_wrong_task_id():
+    task = make_task(1, "cook code", "todo")
+
+    with pytest.raises(ValueError, match="Task with ID: 4 not found"):
+        update_task_status(
+            4,
+            [task],
+            "in-progress",
+            datetime.now().isoformat()
+        )
+
+def test_update_task_progress_with_wrong_on_empty_tasks():
+    with pytest.raises(ValueError, match="Task with ID: 78 not found"):
+        update_task_status(
+            78,
+            [],
+            "done",
+            datetime.now().isoformat()
+        )
